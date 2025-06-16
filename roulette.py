@@ -436,6 +436,11 @@ if __name__ == "__main__":
                         for ronda, sublista in enumerate(crlm.history, 1):
                             print(f"\t Ronda {ronda}: {sublista}")
                         break
+                # -- CREA  AQUI TU PROPIA ESTRATEGIA PARA TESTEAR
+                #elif TOP_METHOD == 'TU-ESTRATEGIA1':
+                #elif TOP_METHOD == 'TU-ESTRATEGIA2':
+                else:
+                    pass
 
                 winning_number = crlm.start(secs_animation=ANIMATION_TIME_SECS)
                 status = crlm.calculate_winning_amount(winning_number=winning_number)
