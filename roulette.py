@@ -30,7 +30,7 @@ def singleton(cls):
 @singleton
 class CircleRouletteLittleMachine(list):
     '''
-    Representacion de una maquinita
+    Representación de una ruleta circular
     '''
 
     PROFIT_OUT = 33
