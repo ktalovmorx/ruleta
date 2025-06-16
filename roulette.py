@@ -145,6 +145,27 @@ class CircleRouletteLittleMachine(list):
 
         return result
 
+    def get_coolest(self, top:int) -> list:
+        '''
+        Devuelve los `top` números distintos menos frecuentes de las últimas N salidas,
+        con un toque de aleatoriedad ponderada por la baja frecuencia.
+        '''
+        flat = list(chain.from_iterable(self.history))
+        counter = Counter(flat)
+
+        # Aleatoriza con peso inverso: números menos frecuentes tienen más chance de salir arriba
+        top_randomized = sorted(counter.keys(), key=lambda x: (1 / (counter[x] + 1)) * random.random(), reverse=True)
+
+        result = top_randomized[:top]
+        seen = set(result)
+
+        # Rellenar con números aleatorios distintos si faltan
+        if len(result) < top:
+            restantes = [n for n in self if n not in seen]
+            result.extend(restantes[:top - len(result)])
+
+        return result
+
     def get_history(self) -> list:
         '''
         Muestra los ultimos numeros del historico
@@ -416,44 +437,32 @@ def main(crlm:CircleRouletteLittleMachine) -> None:
                     crlm.show_history()
                     break
             # -- CREA  AQUI TU PROPIA ESTRATEGIA PARA TESTEAR
-            elif TOP_METHOD == 'IA1':
+            elif TOP_METHOD == 'COMMONS':
+                # -- Selecciona media ruleta y el cero, si los calientes están fuera de la mitad también los selecciona
+                a_num, b_num = crlm.get_hotters(top=2)
+                crlm.hotter_numbers = [a_num, b_num]
+                print(f"🔥 Hotters seleccionados: {a_num}, {b_num}")
+                
                 try:
                     bets = {
                         0:HOT_AMOUNT*crlm.get_multiplier(),
-                        1:NEIGHT_AMOUNT*crlm.get_multiplier(),
+                        1:0*crlm.get_multiplier(),
                         2:HOT_AMOUNT*crlm.get_multiplier(),
-                        3:NEIGHT_AMOUNT*crlm.get_multiplier(),
+                        3:0*crlm.get_multiplier(),
                         4:HOT_AMOUNT*crlm.get_multiplier(),
-                        5:NEIGHT_AMOUNT*crlm.get_multiplier(),
+                        5:0*crlm.get_multiplier(),
                         6:HOT_AMOUNT*crlm.get_multiplier(),
-                        7:NEIGHT_AMOUNT*crlm.get_multiplier(),
-                        8:HOT_AMOUNT*crlm.get_multiplier(),
-                        9:NEIGHT_AMOUNT*crlm.get_multiplier(),
-                        10:HOT_AMOUNT*crlm.get_multiplier(),
-                        11:NEIGHT_AMOUNT*crlm.get_multiplier(),
-                        12:HOT_AMOUNT*crlm.get_multiplier(),
+                        7:HOT_AMOUNT*crlm.get_multiplier(),
+                        8:0*crlm.get_multiplier(),
+                        9:HOT_AMOUNT*crlm.get_multiplier(),
+                        10:0*crlm.get_multiplier(),
+                        11:HOT_AMOUNT*crlm.get_multiplier(),
+                        12:0*crlm.get_multiplier(),
                     }
-                    crlm.put_bet(bets)
-                except ValueError as e:
-                    print(f"[Error en la apuesta]: {e}")
-                    print(f'Te retiras con {crlm.total_amount} DOP')
-                    crlm.show_history()
-                    break
-            elif TOP_METHOD == 'IA2':
-                a_num, b_num = crlm.get_hotters(top=2)
-                print(f"🔥 Hotters seleccionados: {a_num}, {b_num}")
-                crlm.hotter_numbers = [a_num, b_num]
-                try:
-                    bets = {
-                        a_num:HOT_AMOUNT*crlm.get_multiplier(),
-                        b_num:HOT_AMOUNT*crlm.get_multiplier(),
-                        0:NEIGHT_AMOUNT*crlm.get_multiplier()
-                    }
-                    for n in crlm:
-                        if (n not in bets):
+                    for n in crlm.hotter_numbers:
+                        if n not in bets:
                             bets[n] = HOT_AMOUNT*crlm.get_multiplier()
-                        if (n in [a_num, b_num]):
-                            bets[n] += NEIGHT_AMOUNT*crlm.get_multiplier()
+
                     crlm.put_bet(bets)
                 except ValueError as e:
                     print(f"[Error en la apuesta]: {e}")
@@ -536,10 +545,8 @@ if __name__ == "__main__":
         total_amount = 160 * RONDAS_SOPORTADAS
     elif TOP_METHOD == 'TOP3':
         total_amount = 240 * RONDAS_SOPORTADAS
-    elif TOP_METHOD == 'IA1':
-        total_amount = 140 * RONDAS_SOPORTADAS
-    elif TOP_METHOD == 'IA2':
-        total_amount = 1390 * RONDAS_SOPORTADAS
+    elif TOP_METHOD == 'COMMONS':
+        total_amount = 290 * RONDAS_SOPORTADAS
     else:
         raise ValueError('El top indicado no es valido')
 
