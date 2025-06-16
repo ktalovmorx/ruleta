@@ -26,7 +26,7 @@
 2. **Instala las dependencias** ejecutando el siguiente comando en tu terminal:
 
    ```bash
-   pip install cfonts
+   pip install python-cfonts
     ```
 
 ## 🎮 Uso

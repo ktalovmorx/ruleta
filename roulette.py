@@ -14,6 +14,7 @@ import os, sys
 import cfonts
 import time
 
+
 class CircleRouletteLittleMachine(list):
     '''
     Representacion de una maquinita
