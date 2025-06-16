@@ -30,8 +30,7 @@
 2. **Instala las dependencias** ejecutando el siguiente comando en tu terminal:
 
    ```
-   pip install python-cfonts
-   pip install python-dotenv
+   pip install -r requirements.txt
     ```
 
 ## 🎮 Uso
