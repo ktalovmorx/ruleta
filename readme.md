@@ -32,9 +32,9 @@
 ## 🎮 Uso
 
 ```
-python roulette.py [TOP_METHOD] [HOT_AMOUNT] [NEIGHT_AMOUNT] [OTHER_AMOUNT] [RONDAS_SOPORTADAS] [PROFIT_OUT] [USE_ANTIGALA]
-python roulette.py TOP3 40 20 5 20 10 1
-python roulette.py TOP2 40 20 5 20 10 1
+python roulette.py [TOP_METHOD:str] [HOT_AMOUNT:int] [NEIGHT_AMOUNT:int] [OTHER_AMOUNT:int] [RONDAS_SOPORTADAS:int] [PROFIT_OUT:int] [USE_ANTIGALA:bool] [AUTORUN:bool]
+python roulette.py TOP3 40 20 10 20 10 1
+python roulette.py TOP2 40 20 10 20 10 1
 ```
 
 ## 📋 Parámetros
