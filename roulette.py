@@ -292,8 +292,8 @@ if __name__ == "__main__":
     os.system('cls')
 
     if len(sys.argv) <= 2:
-        print("USE python roulette.py [TOP_METHOD] [HOT_AMOUNT] [NEIGHT_AMOUNT] [OTHER_AMOUNT] [RONDAS_SOPORTADAS] [PROFIT_OUT (30,50,60,...)] [USE_ANTIGALA 1 ó 0]")
-        print("Ex. python roulette.py TOP3 40 20 10 10 33 1")
+        print("USE python roulette.py [TOP_METHOD] [HOT_AMOUNT] [NEIGHT_AMOUNT] [OTHER_AMOUNT] [RONDAS_SOPORTADAS] [PROFIT_OUT (30,50,60,...)] [USE_ANTIGALA 1 ó 0] [AUTORUN 1 ó 0]")
+        print("Ex. python roulette.py TOP3 40 20 5 20 10 1")
     else:
         output = cfonts.render('ROULETTE', colors=['red', 'yellow'], align='center')
         print(output)
@@ -302,9 +302,7 @@ if __name__ == "__main__":
         HOT_AMOUNT = int(sys.argv[2])
         NEIGHT_AMOUNT = int(sys.argv[3])
         OTHER_AMOUNT = int(sys.argv[4])
-        # -- Habilita el juego automático
-        AUTORUN = True
-        COUNTER_AUTO = 0
+
         # -- Maximo numero de jugadas en automático
         MAX_REPEAT = 100
         # -- Pausa entre automatizacion de autorun
@@ -321,6 +319,10 @@ if __name__ == "__main__":
 
         # -- Use ANTIMARTINGALA
         USE_ANTIGALA =  bool(int(sys.argv[7]))
+
+        # -- Habilita el juego automático
+        AUTORUN = bool(int(sys.argv[8]))
+        COUNTER_AUTO = 0
 
         if TOP_METHOD == 'TOP2':
             total_amount = 160 * RONDAS_SOPORTADAS

@@ -46,6 +46,7 @@ python roulette.py TOP2 40 20 5 20 10 1
 - **RONDAS_SOPORTADAS**: Número de rondas que el saldo inicial puede soportar. ⏳
 - **PROFIT_OUT**: Porcentaje de profit deseado para retirarse. 🎯
 - **USE_ANTIGALA**: Habilita (1) o deshabilita (0) el sistema Antimartingala. 📈
+- **AUTORUN**: Habilita (1) o deshabilita (0) el sistema de ejecución automática. 🤖
 
 Ejemplo
 
