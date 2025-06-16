@@ -503,7 +503,7 @@ if __name__ == "__main__":
                                        total_amount=total_amount)
     crlm.INITIAL_WALLET = total_amount
     CircleRouletteLittleMachine.PROFIT_OUT = PROFIT_OUT
-    crlm.initialize_history(INITIAL_HISTORY_BLOCKS=5)
+    crlm.initialize_history(INITIAL_HISTORY_BLOCKS=INITIAL_HISTORY_BLOCKS)
     
     print(f"💼 Cartera Requerida: {crlm.total_amount} DOP")
     print("🎉 ¡Prepárate para girar la ruleta! 🎉")
