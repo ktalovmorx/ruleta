@@ -308,69 +308,26 @@ class CircleRouletteLittleMachine(list):
         for ronda, sublista in enumerate(self.history, 1):
             print(f"\t ✅Ronda {ronda}: {sublista}")
 
+def main(crlm:CircleRouletteLittleMachine) -> None:
+    '''
+    Función de inicialización
+    '''
+     
+    global TOP_METHOD
+    global HOT_AMOUNT
+    global NEIGHT_AMOUNT
+    global OTHER_AMOUNT
+    global RONDAS_SOPORTADAS
+    global PROFIT_OUT
+    global USE_ANTIGALA
+    global AUTORUN
+    global MAX_REPEAT
+    global ANIMATION_TIME_SECS
+    global COUNTER_AUTO
+    global INITIAL_HISTORY_BLOCKS
+    global PAUSE_AUTORUN
 
-if __name__ == "__main__":
-    # -- Configurar ARGPARSE para manejar los argumentos desde la línea de comandos
-    parser = argparse.ArgumentParser(description='Simulación de Ruleta')
-
-    parser.add_argument('--method', type=str, required=True, help='Estrategia de selección de números calientes (TOP2 o TOP3)')
-    parser.add_argument('--hot_amount', type=int, required=True, help='Monto a apostar por cada número caliente')
-    parser.add_argument('--neight_amount', type=int, required=True, help='Monto a apostar por los vecinos de los números calientes')
-    parser.add_argument('--other_amount', type=int, required=True, help='Monto a apostar por los números restantes')
-    parser.add_argument('--rondas_soportadas', type=int, required=True, help='Número de rondas que el saldo inicial puede soportar')
-    parser.add_argument('--profit_out', type=int, required=True, help='Porcentaje de profit deseado para retirarse')
-    parser.add_argument('--use_antigala', type=int, choices=[0, 1], required=True, help='Habilita (1) o deshabilita (0) el sistema Antimartingala')
-    parser.add_argument('--autorun', type=int, choices=[0, 1], required=True, help='Ejecutar automáticamente (1) o manualmente (0)')
-    parser.add_argument('--max_repeat', type=int, required=True, help='Maximo numero de jugadas en automático')
-
-    args = parser.parse_args()
-
-    os.system('cls')
-
-    output = cfonts.render('ROULETTE', colors=['red', 'yellow'], align='center')
-    print(output)
-
-    TOP_METHOD = args.method
-    HOT_AMOUNT = args.hot_amount
-    NEIGHT_AMOUNT = args.neight_amount
-    OTHER_AMOUNT = args.other_amount
-    RONDAS_SOPORTADAS = args.rondas_soportadas
-    PROFIT_OUT = args.profit_out
-    USE_ANTIGALA = bool(args.use_antigala)
-    AUTORUN = bool(args.autorun)
-    MAX_REPEAT = args.max_repeat
-
-    # -- Tiempo de visualizacion de animacion
-    ANIMATION_TIME_SECS = int(os.getenv('animation_time'))
-    # -- Control de autoincremento
-    COUNTER_AUTO = int(os.getenv('counter_auto'))
-    # -- Simular N rondas de historial para iniciar
-    INITIAL_HISTORY_BLOCKS = int(os.getenv('initial_history_blocks'))
-    # -- Pausa entre automatizacion de autorun
-    PAUSE_AUTORUN = int(os.getenv('pause_autorun_time'))
-
-    if TOP_METHOD == 'TOP2':
-        total_amount = 160 * RONDAS_SOPORTADAS
-    elif TOP_METHOD == 'TOP3':
-        total_amount = 240 * RONDAS_SOPORTADAS
-    else:
-        raise ValueError('El top indicado no es valido')
-
-    crlm = CircleRouletteLittleMachine(numbers=[int(x) for x in os.getenv('numbers').replace(' ','').split(',')], pay_for=12, history_size=7, total_amount=total_amount)
-    crlm.INITIAL_WALLET = total_amount
-    CircleRouletteLittleMachine.PROFIT_OUT = PROFIT_OUT
-
-    
-    crlm.initialize_history(INITIAL_HISTORY_BLOCKS=5)
     ronda_actual = INITIAL_HISTORY_BLOCKS - 1
-
-    print(f"💼 Cartera Requerida: {crlm.total_amount} DOP")
-    print("🎉 ¡Prepárate para girar la ruleta! 🎉")
-    print("⭐ Apuesta sabiamente y alcanza el máximo profit. ⭐")
-    print("💼 Revisa tu saldo y ajusta tus apuestas. 💰")
-    print("⚙️ Configura tus estrategias para maximizar las ganancias. 🎯")
-    input(f"\n🎰 Presiona ENTER para iniciar 🎰")
-
     while True:
         # Si AUTORUN es True y ya se pasó el límite de repeticiones, termina el juego
         if AUTORUN and COUNTER_AUTO >= MAX_REPEAT:
@@ -492,3 +449,64 @@ if __name__ == "__main__":
             print(f'Te retiras con {crlm.total_amount} DOP')
             crlm.show_history()
             break
+
+if __name__ == "__main__":
+    # -- Configurar ARGPARSE para manejar los argumentos desde la línea de comandos
+    parser = argparse.ArgumentParser(description='Simulación de Ruleta')
+
+    parser.add_argument('--method', type=str, required=True, help='Estrategia de selección de números calientes (TOP2 o TOP3)')
+    parser.add_argument('--hot_amount', type=int, required=True, help='Monto a apostar por cada número caliente')
+    parser.add_argument('--neight_amount', type=int, required=True, help='Monto a apostar por los vecinos de los números calientes')
+    parser.add_argument('--other_amount', type=int, required=True, help='Monto a apostar por los números restantes')
+    parser.add_argument('--rondas_soportadas', type=int, required=True, help='Número de rondas que el saldo inicial puede soportar')
+    parser.add_argument('--profit_out', type=int, required=True, help='Porcentaje de profit deseado para retirarse')
+    parser.add_argument('--use_antigala', type=int, choices=[0, 1], required=True, help='Habilita (1) o deshabilita (0) el sistema Antimartingala')
+    parser.add_argument('--autorun', type=int, choices=[0, 1], required=True, help='Ejecutar automáticamente (1) o manualmente (0)')
+    parser.add_argument('--max_repeat', type=int, required=True, help='Maximo numero de jugadas en automático')
+
+    args = parser.parse_args()
+
+    os.system('cls')
+
+    output = cfonts.render('ROULETTE', colors=['red', 'yellow'], align='center')
+    print(output)
+
+    TOP_METHOD = args.method
+    HOT_AMOUNT = args.hot_amount
+    NEIGHT_AMOUNT = args.neight_amount
+    OTHER_AMOUNT = args.other_amount
+    RONDAS_SOPORTADAS = args.rondas_soportadas
+    PROFIT_OUT = args.profit_out
+    USE_ANTIGALA = bool(args.use_antigala)
+    AUTORUN = bool(args.autorun)
+    MAX_REPEAT = args.max_repeat
+
+    # -- Tiempo de visualizacion de animacion
+    ANIMATION_TIME_SECS = int(os.getenv('animation_time'))
+    # -- Control de autoincremento
+    COUNTER_AUTO = int(os.getenv('counter_auto'))
+    # -- Simular N rondas de historial para iniciar
+    INITIAL_HISTORY_BLOCKS = int(os.getenv('initial_history_blocks'))
+    # -- Pausa entre automatizacion de autorun
+    PAUSE_AUTORUN = int(os.getenv('pause_autorun_time'))
+
+    if TOP_METHOD == 'TOP2':
+        total_amount = 160 * RONDAS_SOPORTADAS
+    elif TOP_METHOD == 'TOP3':
+        total_amount = 240 * RONDAS_SOPORTADAS
+    else:
+        raise ValueError('El top indicado no es valido')
+
+    crlm = CircleRouletteLittleMachine(numbers=[int(x) for x in os.getenv('numbers').replace(' ','').split(',')], pay_for=12, history_size=7, total_amount=total_amount)
+    crlm.INITIAL_WALLET = total_amount
+    CircleRouletteLittleMachine.PROFIT_OUT = PROFIT_OUT
+    crlm.initialize_history(INITIAL_HISTORY_BLOCKS=5)
+    
+    print(f"💼 Cartera Requerida: {crlm.total_amount} DOP")
+    print("🎉 ¡Prepárate para girar la ruleta! 🎉")
+    print("⭐ Apuesta sabiamente y alcanza el máximo profit. ⭐")
+    print("💼 Revisa tu saldo y ajusta tus apuestas. 💰")
+    print("⚙️ Configura tus estrategias para maximizar las ganancias. 🎯")
+    input(f"\n🎰 Presiona ENTER para iniciar 🎰")
+
+    main(crlm)
