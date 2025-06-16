@@ -4,8 +4,8 @@
 
 ---
 
-![Descripción de la imagen](world-roulette-machine.jpg)
-![Descripción de la imagen](front.png)
+![Descripción de la imagen](images/world-roulette-machine.jpg)
+![Descripción de la imagen](images/front.png)
 
 
 ## 📜 Descripción
