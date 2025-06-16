@@ -364,7 +364,7 @@ if __name__ == "__main__":
     crlm.initialize_history(INITIAL_HISTORY_BLOCKS=5)
     ronda_actual = INITIAL_HISTORY_BLOCKS - 1
 
-    print(f"🎰 Presiona ENTER para jugar 🎰")
+    input(f"🎰 Presiona ENTER para jugar 🎰")
 
     while True:
         # Si AUTORUN es True y ya se pasó el límite de repeticiones, termina el juego
