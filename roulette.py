@@ -248,7 +248,7 @@ class CircleRouletteLittleMachine(list):
         print(f"\t 🔥 Hotters -> {self.hotter_numbers}")
         print(f"\t 🎟️ Apuestas -> {apuestas_ordenadas}")
         print(f"\t 🎯 Número Ganador -> {winning_number}")
-        print(f"\t ⚡ Ronda -> {self.ROUND_NUMBER}")
+        print(f"\t 💥 Ronda -> {self.ROUND_NUMBER}")
         
         if not self.history:
             self.history.append([winning_number])
@@ -370,7 +370,7 @@ if __name__ == "__main__":
 
         if key == b'\r':
             ronda_actual += 1
-            print(f"\n🎲 RONDA {ronda_actual}")
+            print(f"\n💥 Ronda {ronda_actual}")
 
             # -- Validar si hay historial suficiente para predecir
             if not crlm.history:
@@ -403,9 +403,9 @@ if __name__ == "__main__":
                     print(f"[Error en la apuesta]: {e}")
                     print(f'Te retiras con {crlm.total_amount} DOP')
                     print("Resumen final:")
-                    print("\n📜 Historial de jugadas")
+                    print("\n📝 Historial de jugadas")
                     for ronda, sublista in enumerate(crlm.history, 1):
-                        print(f"\t Ronda {ronda}: {sublista}")
+                        print(f"\t 💥 Ronda {ronda}: {sublista}")
                     break
 
             elif TOP_METHOD == 'TOP3':
@@ -438,9 +438,9 @@ if __name__ == "__main__":
                 except ValueError as e:
                     print(f"[Error en la apuesta]: {e}")
                     print(f'Te retiras con {crlm.total_amount} DOP')
-                    print("\n\t📜 Historial de jugadas")
+                    print("\n\t📝 Historial de jugadas")
                     for ronda, sublista in enumerate(crlm.history, 1):
-                        print(f"\t Ronda {ronda}: {sublista}")
+                        print(f"\t 💥 Ronda {ronda}: {sublista}")
                     break
             # -- CREA  AQUI TU PROPIA ESTRATEGIA PARA TESTEAR
             #elif TOP_METHOD == 'TU-ESTRATEGIA1':
@@ -462,23 +462,23 @@ if __name__ == "__main__":
             # -- Profit alcanzado
             if crlm.has_reach_profit():
                 print(f'Te retiras con {crlm.total_amount} DOP')
-                print("\n\t📜 Historial de jugadas")
+                print("\n\t📝 Historial de jugadas")
                 for ronda, sublista in enumerate(crlm.history, 1):
-                    print(f"\t Ronda {ronda}: {sublista}")
+                    print(f"\t 💥 Ronda {ronda}: {sublista}")
                 break
 
             # Verifica si el saldo se ha agotado
             if crlm.total_amount <= 0:
                 print("Saldo insuficiente. El juego ha terminado.")
-                print("\n\t📜 Historial de jugadas")
+                print("\n\t📝 Historial de jugadas")
                 for ronda, sublista in enumerate(crlm.history, 1):
-                    print(f"\t Ronda {ronda}: {sublista}")
+                    print(f"\t 💥 Ronda {ronda}: {sublista}")
                 break
 
         # ESCAPE Key para salir
         if key == b'\x1b':
             print(f'Te retiras con {crlm.total_amount} DOP')
-            print("\n\t📜 Historial de jugadas")
+            print("\n\t📝 Historial de jugadas")
             for ronda, sublista in enumerate(crlm.history, 1):
-                print(f"\t Ronda {ronda}: {sublista}")
+                print(f"\t 💥 Ronda {ronda}: {sublista}")
             break
