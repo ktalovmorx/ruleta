@@ -378,7 +378,7 @@ def main(crlm:CircleRouletteLittleMachine) -> None:
                             bets[n] = OTHER_AMOUNT*crlm.get_multiplier()
                     crlm.put_bet(bets)
                 except ValueError as e:
-                    print(f"[Error en la apuesta]: {e}")
+                    print(f"🚧 ADVERTENCIA : {e}")
                     print(f'Te retiras con {crlm.total_amount} DOP')
                     crlm.show_history()
                     break
