@@ -1,1 +1,2 @@
 python-cfonts
+python-dotenv

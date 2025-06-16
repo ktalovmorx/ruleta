@@ -14,7 +14,8 @@ from collections import Counter
 import os, sys
 import cfonts
 import time
-
+from dotenv import load_dotenv
+load_dotenv()
 
 class CircleRouletteLittleMachine(list):
     '''
@@ -290,8 +291,8 @@ class CircleRouletteLittleMachine(list):
 
 
 if __name__ == "__main__":
-    # Configura argparse para manejar los argumentos desde la línea de comandos
-    parser = argparse.ArgumentParser(description='Simulación de ruleta')
+    # -- Configurar ARGPARSE para manejar los argumentos desde la línea de comandos
+    parser = argparse.ArgumentParser(description='Simulación de Ruleta')
 
     parser.add_argument('--method', type=str, required=True, help='Estrategia de selección de números calientes (TOP2 o TOP3)')
     parser.add_argument('--hot_amount', type=int, required=True, help='Monto a apostar por cada número caliente')
@@ -301,6 +302,7 @@ if __name__ == "__main__":
     parser.add_argument('--profit_out', type=int, required=True, help='Porcentaje de profit deseado para retirarse')
     parser.add_argument('--use_antigala', type=int, choices=[0, 1], required=True, help='Habilita (1) o deshabilita (0) el sistema Antimartingala')
     parser.add_argument('--autorun', type=int, choices=[0, 1], required=True, help='Ejecutar automáticamente (1) o manualmente (0)')
+    parser.add_argument('--max_repeat', type=int, required=True, help='Maximo numero de jugadas en automático')
 
     args = parser.parse_args()
 
@@ -318,15 +320,14 @@ if __name__ == "__main__":
     PROFIT_OUT = args.profit_out
     USE_ANTIGALA = bool(args.use_antigala)
     AUTORUN = bool(args.autorun)
+    MAX_REPEAT = args.max_repeat
 
     # -- Control de autoincremento
-    COUNTER_AUTO = 0
+    COUNTER_AUTO = int(os.getenv('counter_auto'))
     # -- Simular N rondas de historial para iniciar
-    INITIAL_HISTORY_BLOCKS = 5
-    # -- Maximo numero de jugadas en automático
-    MAX_REPEAT = 100
+    INITIAL_HISTORY_BLOCKS = int(os.getenv('initial_history_blocks'))
     # -- Pausa entre automatizacion de autorun
-    PAUSE_AUTORUN = 1
+    PAUSE_AUTORUN = int(os.getenv('pause_autorun_time'))
 
     if TOP_METHOD == 'TOP2':
         total_amount = 160 * RONDAS_SOPORTADAS
@@ -335,7 +336,7 @@ if __name__ == "__main__":
     else:
         raise ValueError('El top indicado no es valido')
 
-    crlm = CircleRouletteLittleMachine(numbers=[0, 5, 12, 3, 10, 1, 8, 9, 2, 7, 6, 11, 4], pay_for=12, history_size=7, total_amount=total_amount)
+    crlm = CircleRouletteLittleMachine(numbers=[int(x) for x in os.getenv('numbers').replace(' ','').split(',')], pay_for=12, history_size=7, total_amount=total_amount)
     crlm.INITIAL_WALLET = total_amount
     CircleRouletteLittleMachine.PROFIT_OUT = PROFIT_OUT
 

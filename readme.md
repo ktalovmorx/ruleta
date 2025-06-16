@@ -29,14 +29,15 @@
 1. **Clona el repositorio** o descarga el archivo `roulette.py`.
 2. **Instala las dependencias** ejecutando el siguiente comando en tu terminal:
 
-   ```bash
+   ```
    pip install python-cfonts
+   pip install python-dotenv
     ```
 
 ## 🎮 Uso
 
 ```
-python roulette.py --method [str] --hot_amount [int] --neight_amount [int] --other_amount [int] --rondas_soportadas [int] --profit_out [int] --use_antigala [int] --autorun [int]
+python roulette.py --method [str] --hot_amount [int] --neight_amount [int] --other_amount [int] --rondas_soportadas [int] --profit_out [int] --use_antigala [int] --autorun [int] --max_repeat [int]
 ```
 
 ## 🆘 Ayuda
@@ -55,11 +56,12 @@ python roulette.py --help
 - **PROFIT_OUT**: Porcentaje de profit deseado para retirarse. 🎯
 - **USE_ANTIGALA**: Habilita (1) o deshabilita (0) el sistema Antimartingala. 📈
 - **AUTORUN**: Habilita (1) o deshabilita (0) el sistema de ejecución automática. 🤖
+- **MAX_REPEAT**: Máxima cantidad de jugadas automáticas. 🚀
 
 Ejemplo
 
     ```
-    python roulette.py --method TOP2 --hot_amount 40 --neight_amount 20 --other_amount 10 --rondas_soportadas 20 --profit_out 10 --use_antigala 1 --autorun 1
+    python roulette.py --method TOP2 --hot_amount 40 --neight_amount 20 --other_amount 10 --rondas_soportadas 20 --profit_out 10 --use_antigala 1 --autorun 1 --max_repeat 100
     ```
 
 ## 🕹️ Controles
@@ -87,6 +89,7 @@ Ejemplo
   - `msvcrt`: Captura de teclas en Windows. ⌨️
   - `cfonts`: Renderizado de texto en la terminal con colores. 🌈
   - `random`: Generación de números aleatorios. 🎲
+  - `dotenv`: Cargar variables desde archivo de configuración. 💾
   - `itertools` y `collections`: Manejo de datos para historial y frecuencias. 📊
 
 - **Clase Principal**: `CircleRouletteLittleMachine` - Gestiona la ruleta, apuestas, historial y cálculos. ⚙️
