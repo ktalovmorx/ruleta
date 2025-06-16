@@ -312,7 +312,6 @@ if __name__ == "__main__":
     print(output)
 
     TOP_METHOD = args.method
-    ANIMATION_TIME_SECS = 1
     HOT_AMOUNT = args.hot_amount
     NEIGHT_AMOUNT = args.neight_amount
     OTHER_AMOUNT = args.other_amount
@@ -322,6 +321,8 @@ if __name__ == "__main__":
     AUTORUN = bool(args.autorun)
     MAX_REPEAT = args.max_repeat
 
+    # -- Tiempo de visualizacion de animacion
+    ANIMATION_TIME_SECS = int(os.getenv('animation_time'))
     # -- Control de autoincremento
     COUNTER_AUTO = int(os.getenv('counter_auto'))
     # -- Simular N rondas de historial para iniciar
