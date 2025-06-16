@@ -360,15 +360,16 @@ if __name__ == "__main__":
     crlm.INITIAL_WALLET = total_amount
     CircleRouletteLittleMachine.PROFIT_OUT = PROFIT_OUT
 
-    print(f"💼 Cartera Requerida: {crlm.total_amount} DOP")
+    
     crlm.initialize_history(INITIAL_HISTORY_BLOCKS=5)
     ronda_actual = INITIAL_HISTORY_BLOCKS - 1
 
-    print("\n🎉 ¡Prepárate para girar la rueleta! 🎉")
+    print(f"💼 Cartera Requerida: {crlm.total_amount} DOP")
+    print("🎉 ¡Prepárate para girar la ruleta! 🎉")
     print("⭐ Apuesta sabiamente y alcanza el máximo profit. ⭐")
     print("💼 Revisa tu saldo y ajusta tus apuestas. 💰")
     print("⚙️ Configura tus estrategias para maximizar las ganancias. 🎯")
-    input(f"🎰 Presiona ENTER para iniciar 🎰")
+    input(f"\n🎰 Presiona ENTER para iniciar 🎰")
 
     while True:
         # Si AUTORUN es True y ya se pasó el límite de repeticiones, termina el juego
