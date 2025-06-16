@@ -340,7 +340,7 @@ if __name__ == "__main__":
     crlm.INITIAL_WALLET = total_amount
     CircleRouletteLittleMachine.PROFIT_OUT = PROFIT_OUT
 
-    print(f"💼 Cartera: {crlm.total_amount} DOP")
+    print(f"💼 Cartera Requerida: {crlm.total_amount} DOP")
     crlm.initialize_history(INITIAL_HISTORY_BLOCKS=5)
     ronda_actual = INITIAL_HISTORY_BLOCKS - 1
 
