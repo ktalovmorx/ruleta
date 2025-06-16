@@ -4,6 +4,10 @@
 
 ---
 
+![Descripción de la imagen](world-roulette-machine.jpg)
+![Descripción de la imagen](front.png)
+
+
 ## 📜 Descripción
 
 **Roulette Simulator** simula una ruleta con un conjunto predefinido de números (0 al 12 por defecto) y permite a los jugadores realizar apuestas basadas en diferentes métodos predictivos. El programa incluye animaciones, cálculo de ganancias y pérdidas, y un sistema de historial para analizar jugadas anteriores. 🎲
