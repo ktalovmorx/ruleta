@@ -39,6 +39,12 @@
 python roulette.py --method [str] --hot_amount [int] --neight_amount [int] --other_amount [int] --rondas_soportadas [int] --profit_out [int] --use_antigala [int] --autorun [int]
 ```
 
+## 🆘 Ayuda
+
+```
+python roulette.py --help
+```
+
 ## 📋 Parámetros
 
 - **TOP_METHOD**: Estrategia de selección de números calientes (`TOP2` o `TOP3`). 🔥
