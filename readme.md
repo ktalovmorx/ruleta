@@ -60,7 +60,7 @@ python roulette.py --help
 Ejemplo
 
     ```
-    python roulette.py --method TOP2 --hot_amount 40 --neight_amount 20 --other_amount 10 --rondas_soportadas 20 --profit_out 10 --use_antigala 1 --autorun 1 --max_repeat 100
+    python roulette.py --method TOP3 --hot_amount 40 --neight_amount 20 --other_amount 10 --rondas_soportadas 20 --profit_out 10 --use_antigala 1 --autorun 1 --max_repeat 100
     ```
 
 ## 🕹️ Controles
