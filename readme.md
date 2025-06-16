@@ -39,13 +39,13 @@ python roulette.py TOP2 40 20 5 20 10 1
 
 ## 📋 Parámetros
 
-- TOP_METHOD: Estrategia de selección de números calientes (TOP2 o TOP3). 🔥
-- HOT_AMOUNT: Monto a apostar por cada número caliente. 💵
-- NEIGHT_AMOUNT: Monto a apostar por los vecinos de los números calientes. 🧩
-- OTHER_AMOUNT: Monto a apostar por los números restantes. 💳
-- RONDAS_SOPORTADAS: Número de rondas que el saldo inicial puede soportar. ⏳
-- PROFIT_OUT: Porcentaje de profit deseado para retirarse. 🎯
-- USE_ANTIGALA: Habilita (1) o deshabilita (0) el sistema Antimartingala. 📈
+- **TOP_METHOD**: Estrategia de selección de números calientes (`TOP2` o `TOP3`). 🔥
+- **HOT_AMOUNT**: Monto a apostar por cada número caliente. 💵
+- **NEIGHT_AMOUNT**: Monto a apostar por los vecinos de los números calientes. 🧩
+- **OTHER_AMOUNT**: Monto a apostar por los números restantes. 💳
+- **RONDAS_SOPORTADAS**: Número de rondas que el saldo inicial puede soportar. ⏳
+- **PROFIT_OUT**: Porcentaje de profit deseado para retirarse. 🎯
+- **USE_ANTIGALA**: Habilita (1) o deshabilita (0) el sistema Antimartingala. 📈
 
 Ejemplo
 
@@ -55,16 +55,16 @@ Ejemplo
 
 ## 🕹️ Controles
 
-- ENTER: Inicia una nueva ronda o confirma acciones. ✅
-- ESC: Sale del juego y muestra el saldo final. 🚪
+- **ENTER**: Ejecuta una nueva ronda o confirma acciones.
+- **ESC**: Finaliza el juego mostrando el saldo final.
 
 ## 🧠 Estrategias de Juego
 
-### TOP2
+### 🔥 TOP2
 - Selecciona los 2 números más frecuentes del historial. 🔥
 - Apuesta un monto mayor en ellos y un monto menor en sus vecinos y otros números. 🧮
 
-### TOP3
+### 🔥🔥🔥 TOP3
 - Selecciona los 3 números más frecuentes del historial. 🔥🔥🔥
 - Similar a TOP2, pero distribuye las apuestas entre tres números calientes y sus vecinos. 📊
 - Antimartingala (Opcional)
@@ -72,10 +72,49 @@ Ejemplo
 
 ## 💻 Detalles Técnicos
 
-- Lenguaje: Python 3.x
-- Módulos Utilizados:
-    `msvcrt`: Captura de teclas en Windows. ⌨️
-    `cfonts`: Renderizado de texto en la terminal con colores. 🌈
-    `random`: Generación de números aleatorios. 🎲
-    `itertools` y `collections`: Manejo de datos para historial y frecuencias. 📊
-- Clase Principal: `CircleRouletteLittleMachine` - Gestiona la ruleta, apuestas, historial y cálculos. ⚙️
+- **Lenguaje**: Python 3.x
+
+- **Módulos Utilizados**:
+  - `msvcrt`: Captura de teclas en Windows. ⌨️
+  - `cfonts`: Renderizado de texto en la terminal con colores. 🌈
+  - `random`: Generación de números aleatorios. 🎲
+  - `itertools` y `collections`: Manejo de datos para historial y frecuencias. 📊
+
+- **Clase Principal**: `CircleRouletteLittleMachine` - Gestiona la ruleta, apuestas, historial y cálculos. ⚙️
+
+## 📊 Resultados y Estadísticas
+
+El simulador muestra en cada ronda:
+
+- Números calientes seleccionados. 🔥
+- Apuestas realizadas. 🎟️
+- Número ganador. 🎯
+- Ganancias o pérdidas. 💵❌
+- Porcentaje de profit actual. 🤑
+
+Al finalizar, se presenta un resumen del historial de jugadas. 📜
+
+
+## 🛑 Finalización del Juego
+
+El juego termina en los siguientes casos:
+
+- Se alcanza el porcentaje de profit deseado (PROFIT_OUT). 🎉
+- El saldo se agota. 😢
+- El usuario presiona ESC para salir manualmente. 🚪
+- Se alcanza el límite de rondas automáticas (si está habilitado el modo automático). ⏱️
+
+## 👨‍💻 Autor
+
+- **José E. Morales Ventura**
+- **Fecha de creación**: 15 de Junio de 2025
+
+## 🤝 Contribuciones
+
+¡Siéntete libre de contribuir al proyecto! Puedes abrir issues o enviar pull requests con mejoras, correcciones o nuevas funcionalidades. 🌟
+
+## 📝 Licencia
+
+Este proyecto es de código abierto y está disponible bajo la licencia MIT. 🔓
+
+🎰 ¡Buena suerte y que gire la ruleta! 🎰
