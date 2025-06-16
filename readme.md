@@ -57,3 +57,25 @@ Ejemplo
 
 - ENTER: Inicia una nueva ronda o confirma acciones. ✅
 - ESC: Sale del juego y muestra el saldo final. 🚪
+
+## 🧠 Estrategias de Juego
+
+### TOP2
+- Selecciona los 2 números más frecuentes del historial. 🔥
+- Apuesta un monto mayor en ellos y un monto menor en sus vecinos y otros números. 🧮
+
+### TOP3
+- Selecciona los 3 números más frecuentes del historial. 🔥🔥🔥
+- Similar a TOP2, pero distribuye las apuestas entre tres números calientes y sus vecinos. 📊
+- Antimartingala (Opcional)
+- Aumenta el multiplicador de las apuestas tras cada acierto, buscando maximizar ganancias en rachas positivas. 📈
+
+## 💻 Detalles Técnicos
+
+- Lenguaje: Python 3.x
+- Módulos Utilizados:
+    `msvcrt`: Captura de teclas en Windows. ⌨️
+    `cfonts`: Renderizado de texto en la terminal con colores. 🌈
+    `random`: Generación de números aleatorios. 🎲
+    `itertools` y `collections`: Manejo de datos para historial y frecuencias. 📊
+- Clase Principal: `CircleRouletteLittleMachine` - Gestiona la ruleta, apuestas, historial y cálculos. ⚙️
