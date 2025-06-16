@@ -39,7 +39,7 @@ class CircleRouletteLittleMachine(list):
         # -- Recordar el monto inicial y la ronda actual
         self.ROUND_NUMBER = 0
         self.INITIAL_WALLET = 0
-        self.MULTIPLICADOR = [1, 2]
+        self.MULTIPLICADOR = [int(x) for x in os.getenv('gale').replace(' ','').split(',')]
         self.INDEX = 0
         
     def add_multiplier(self) -> int:
@@ -194,7 +194,7 @@ class CircleRouletteLittleMachine(list):
             raise ValueError("⛔ Saldo insuficiente para descontar la apuesta")
         self.total_amount -= total_bet
 
-    def display_number(self, number):
+    def display_number(self, number:int):
         os.system('cls' if os.name == 'nt' else 'clear')
         output_title = cfonts.render('ROULETTE', colors=['red', 'yellow'], align='center')
 
