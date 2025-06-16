@@ -497,7 +497,10 @@ if __name__ == "__main__":
     else:
         raise ValueError('El top indicado no es valido')
 
-    crlm = CircleRouletteLittleMachine(numbers=[int(x) for x in os.getenv('numbers').replace(' ','').split(',')], pay_for=12, history_size=7, total_amount=total_amount)
+    crlm = CircleRouletteLittleMachine(numbers=[int(x) for x in os.getenv('numbers').replace(' ','').split(',')],
+                                       pay_for=int(os.getenv('payed_wins')),
+                                       history_size=int(os.getenv('display_last')),
+                                       total_amount=total_amount)
     crlm.INITIAL_WALLET = total_amount
     CircleRouletteLittleMachine.PROFIT_OUT = PROFIT_OUT
     crlm.initialize_history(INITIAL_HISTORY_BLOCKS=5)
