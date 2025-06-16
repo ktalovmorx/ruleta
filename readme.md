@@ -36,9 +36,7 @@
 ## 🎮 Uso
 
 ```
-python roulette.py [TOP_METHOD:str] [HOT_AMOUNT:int] [NEIGHT_AMOUNT:int] [OTHER_AMOUNT:int] [RONDAS_SOPORTADAS:int] [PROFIT_OUT:int] [USE_ANTIGALA:bool] [AUTORUN:bool]
-python roulette.py TOP3 40 20 10 20 10 1
-python roulette.py TOP2 40 20 10 20 10 1
+python roulette.py --method [str] --hot_amount [int] --neight_amount [int] --other_amount [int] --rondas_soportadas [int] --profit_out [int] --use_antigala [int] --autorun [int]
 ```
 
 ## 📋 Parámetros
@@ -55,7 +53,7 @@ python roulette.py TOP2 40 20 10 20 10 1
 Ejemplo
 
     ```
-    python roulette.py TOP3 40 20 10 10 33 1
+    python roulette.py --method TOP2 --hot_amount 40 --neight_amount 20 --other_amount 10 --rondas_soportadas 20 --profit_out 10 --use_antigala 1 --autorun 1
     ```
 
 ## 🕹️ Controles

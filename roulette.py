@@ -6,6 +6,7 @@ __date__ = '15/Junio/2025'
 __proyect__ = 'roulette.py'
 __description__ = '''Herramienta de Ruleta'''
 
+import argparse
 import msvcrt
 import random
 from itertools import chain
@@ -289,190 +290,193 @@ class CircleRouletteLittleMachine(list):
 
 
 if __name__ == "__main__":
+    # Configura argparse para manejar los argumentos desde la línea de comandos
+    parser = argparse.ArgumentParser(description='Simulación de ruleta')
+
+    parser.add_argument('--method', type=str, required=True, help='Estrategia de selección de números calientes (TOP2 o TOP3)')
+    parser.add_argument('--hot_amount', type=int, required=True, help='Monto a apostar por cada número caliente')
+    parser.add_argument('--neight_amount', type=int, required=True, help='Monto a apostar por los vecinos de los números calientes')
+    parser.add_argument('--other_amount', type=int, required=True, help='Monto a apostar por los números restantes')
+    parser.add_argument('--rondas_soportadas', type=int, required=True, help='Número de rondas que el saldo inicial puede soportar')
+    parser.add_argument('--profit_out', type=int, required=True, help='Porcentaje de profit deseado para retirarse')
+    parser.add_argument('--use_antigala', type=int, choices=[0, 1], required=True, help='Habilita (1) o deshabilita (0) el sistema Antimartingala')
+    parser.add_argument('--autorun', type=int, choices=[0, 1], required=True, help='Ejecutar automáticamente (1) o manualmente (0)')
+
+    args = parser.parse_args()
+
     os.system('cls')
 
-    if len(sys.argv) <= 2:
-        print("USE python roulette.py [TOP_METHOD] [HOT_AMOUNT] [NEIGHT_AMOUNT] [OTHER_AMOUNT] [RONDAS_SOPORTADAS] [PROFIT_OUT (30,50,60,...)] [USE_ANTIGALA 1 ó 0] [AUTORUN 1 ó 0]")
-        print("Ex. python roulette.py TOP3 40 20 5 20 10 1")
+    output = cfonts.render('ROULETTE', colors=['red', 'yellow'], align='center')
+    print(output)
+
+    TOP_METHOD = args.method
+    ANIMATION_TIME_SECS = 1
+    HOT_AMOUNT = args.hot_amount
+    NEIGHT_AMOUNT = args.neight_amount
+    OTHER_AMOUNT = args.other_amount
+    RONDAS_SOPORTADAS = args.rondas_soportadas
+    PROFIT_OUT = args.profit_out
+    USE_ANTIGALA = bool(args.use_antigala)
+    AUTORUN = bool(args.autorun)
+
+    # -- Control de autoincremento
+    COUNTER_AUTO = 0
+    # -- Simular N rondas de historial para iniciar
+    INITIAL_HISTORY_BLOCKS = 5
+    # -- Maximo numero de jugadas en automático
+    MAX_REPEAT = 100
+    # -- Pausa entre automatizacion de autorun
+    PAUSE_AUTORUN = 1
+
+    if TOP_METHOD == 'TOP2':
+        total_amount = 160 * RONDAS_SOPORTADAS
+    elif TOP_METHOD == 'TOP3':
+        total_amount = 240 * RONDAS_SOPORTADAS
     else:
-        output = cfonts.render('ROULETTE', colors=['red', 'yellow'], align='center')
-        print(output)
-        TOP_METHOD = sys.argv[1].upper() if len(sys.argv) > 1 else 'TOP2'
-        ANIMATION_TIME_SECS = 1
-        HOT_AMOUNT = int(sys.argv[2])
-        NEIGHT_AMOUNT = int(sys.argv[3])
-        OTHER_AMOUNT = int(sys.argv[4])
+        raise ValueError('El top indicado no es valido')
 
-        # -- Maximo numero de jugadas en automático
-        MAX_REPEAT = 100
-        # -- Pausa entre automatizacion de autorun
-        PAUSE_AUTORUN = 1
+    crlm = CircleRouletteLittleMachine(numbers=[0, 5, 12, 3, 10, 1, 8, 9, 2, 7, 6, 11, 4], pay_for=12, history_size=7, total_amount=total_amount)
+    crlm.INITIAL_WALLET = total_amount
+    CircleRouletteLittleMachine.PROFIT_OUT = PROFIT_OUT
 
-        # -- Indique para cuantas rondas tiene dinero suficiente
-        RONDAS_SOPORTADAS = int(sys.argv[5])
+    print(f"💼 Cartera: {crlm.total_amount} DOP")
+    crlm.initialize_history(INITIAL_HISTORY_BLOCKS=5)
+    ronda_actual = INITIAL_HISTORY_BLOCKS - 1
 
-        # -- Simular N rondas de historial para iniciar
-        INITIAL_HISTORY_BLOCKS = 5
+    print(f"🎰 Presiona ENTER para jugar 🎰")
 
-        # -- Profit deseado
-        PROFIT_OUT = int(sys.argv[6])
+    while True:
+        # Si AUTORUN es True y ya se pasó el límite de repeticiones, termina el juego
+        if AUTORUN and COUNTER_AUTO >= MAX_REPEAT:
+            print(f"Se completaron {MAX_REPEAT} rondas automáticas. Fin del juego.")
+            print("Resumen final:")
+            print("\n📜 Historial de jugadas")
+            for ronda, sublista in enumerate(crlm.history, 1):
+                print(f"\t Ronda {ronda}: {sublista}")
+            break
 
-        # -- Use ANTIMARTINGALA
-        USE_ANTIGALA =  bool(int(sys.argv[7]))
-
-        # -- Habilita el juego automático
-        AUTORUN = bool(int(sys.argv[8]))
-        COUNTER_AUTO = 0
-
-        if TOP_METHOD == 'TOP2':
-            total_amount = 160 * RONDAS_SOPORTADAS
-        elif TOP_METHOD == 'TOP3':
-            total_amount = 240 * RONDAS_SOPORTADAS
+        if AUTORUN:
+            # Simula ENTER
+            key = b'\r'
+            COUNTER_AUTO += 1
+            time.sleep(PAUSE_AUTORUN)
         else:
-            raise ValueError('El top indicado no es valido')
+            # Espera tecla real
+            if not msvcrt.kbhit():
+                continue
+            key = msvcrt.getch()
 
-        crlm = CircleRouletteLittleMachine(numbers=[0, 5, 12, 3, 10, 1, 8, 9, 2, 7, 6, 11, 4], pay_for=12, history_size=7, total_amount=total_amount)
-        crlm.INITIAL_WALLET = total_amount
-        CircleRouletteLittleMachine.PROFIT_OUT = PROFIT_OUT
+        if key == b'\r':
+            ronda_actual += 1
+            print(f"\n🎲 RONDA {ronda_actual}")
 
-        print(f"💼 Cartera: {crlm.total_amount} DOP")
-        crlm.initialize_history(INITIAL_HISTORY_BLOCKS=5)
-        ronda_actual = INITIAL_HISTORY_BLOCKS - 1
+            # -- Validar si hay historial suficiente para predecir
+            if not crlm.history:
+                print("Primera ronda sin historial. Jugada sin predicción.")
+                winning_number = crlm.start()
+                crlm.calculate_winning_amount(winning_number=winning_number)
+                continue
 
-        print(f"🎰 Presiona ENTER para jugar 🎰")
+            if TOP_METHOD == 'TOP2':
+                a_num, b_num = crlm.get_hotters(top=2)
+                a_neigh_1, a_neigh_2 = crlm.get_neighbors(a_num)
+                b_neigh_1, b_neigh_2 = crlm.get_neighbors(b_num)
 
-        while True:
-            # Si AUTORUN es True y ya se pasó el límite de repeticiones, termina el juego
-            if AUTORUN and COUNTER_AUTO >= MAX_REPEAT:
-                print(f"Se completaron {MAX_REPEAT} rondas automáticas. Fin del juego.")
-                print("Resumen final:")
-                print("\n📜 Historial de jugadas")
-                for ronda, sublista in enumerate(crlm.history, 1):
-                    print(f"\t Ronda {ronda}: {sublista}")
-                break
+                neighbors = [a_neigh_1, a_neigh_2, b_neigh_1, b_neigh_2]
+                crlm.selected_neighs = crlm.select_unique_neighbors(neighbors_list=neighbors, hotters=[a_num, b_num])
 
-            if AUTORUN:
-                # Simula ENTER
-                key = b'\r'
-                COUNTER_AUTO += 1
-                time.sleep(PAUSE_AUTORUN)
-            else:
-                # Espera tecla real
-                if not msvcrt.kbhit():
-                    continue
-                key = msvcrt.getch()
+                print(f"[🔍] Hotters seleccionados: {a_num}, {b_num}")
+                crlm.hotter_numbers = [a_num, b_num]
+                try:
+                    bets = {
+                        a_num: HOT_AMOUNT*crlm.get_multiplier(),
+                        b_num: HOT_AMOUNT*crlm.get_multiplier(),
+                        **{n: NEIGHT_AMOUNT*crlm.get_multiplier() for n in crlm.selected_neighs}
+                    }
+                    for n in crlm:
+                        if n not in bets:
+                            bets[n] = OTHER_AMOUNT*crlm.get_multiplier()
+                    crlm.put_bet(bets)
+                except ValueError as e:
+                    print(f"[Error en la apuesta]: {e}")
+                    print(f'Te retiras con {crlm.total_amount} DOP')
+                    print("Resumen final:")
+                    print("\n📜 Historial de jugadas")
+                    for ronda, sublista in enumerate(crlm.history, 1):
+                        print(f"\t Ronda {ronda}: {sublista}")
+                    break
 
-            if key == b'\r':
-                ronda_actual += 1
-                print(f"\n🎲 RONDA {ronda_actual}")
+            elif TOP_METHOD == 'TOP3':
+                a_num, b_num, c_num = crlm.get_hotters(top=3)
+                a_neigh_1, a_neigh_2 = crlm.get_neighbors(a_num)
+                b_neigh_1, b_neigh_2 = crlm.get_neighbors(b_num)
+                c_neigh_1, c_neigh_2 = crlm.get_neighbors(c_num)
 
-                # -- Validar si hay historial suficiente para predecir
-                if not crlm.history:
-                    print("Primera ronda sin historial. Jugada sin predicción.")
-                    winning_number = crlm.start()
-                    crlm.calculate_winning_amount(winning_number=winning_number)
-                    continue
+                neighbors = [
+                    a_neigh_1, a_neigh_2,
+                    b_neigh_1, b_neigh_2,
+                    c_neigh_1, c_neigh_2
+                ]
 
-                if TOP_METHOD == 'TOP2':
-                    a_num, b_num = crlm.get_hotters(top=2)
-                    a_neigh_1, a_neigh_2 = crlm.get_neighbors(a_num)
-                    b_neigh_1, b_neigh_2 = crlm.get_neighbors(b_num)
+                crlm.selected_neighs = crlm.select_unique_neighbors(neighbors_list=neighbors, hotters=[a_num, b_num, c_num])
 
-                    neighbors = [a_neigh_1, a_neigh_2, b_neigh_1, b_neigh_2]
-                    crlm.selected_neighs = crlm.select_unique_neighbors(neighbors_list=neighbors, hotters=[a_num, b_num])
-
-                    print(f"[🔍] Hotters seleccionados: {a_num}, {b_num}")
-                    crlm.hotter_numbers = [a_num, b_num]
-                    try:
-                        bets = {
-                            a_num: HOT_AMOUNT*crlm.get_multiplier(),
-                            b_num: HOT_AMOUNT*crlm.get_multiplier(),
-                            **{n: NEIGHT_AMOUNT*crlm.get_multiplier() for n in crlm.selected_neighs}
-                        }
-                        for n in crlm:
-                            if n not in bets:
-                                bets[n] = OTHER_AMOUNT*crlm.get_multiplier()
-                        crlm.put_bet(bets)
-                    except ValueError as e:
-                        print(f"[Error en la apuesta]: {e}")
-                        print(f'Te retiras con {crlm.total_amount} DOP')
-                        print("Resumen final:")
-                        print("\n📜 Historial de jugadas")
-                        for ronda, sublista in enumerate(crlm.history, 1):
-                            print(f"\t Ronda {ronda}: {sublista}")
-                        break
-
-                elif TOP_METHOD == 'TOP3':
-                    a_num, b_num, c_num = crlm.get_hotters(top=3)
-                    a_neigh_1, a_neigh_2 = crlm.get_neighbors(a_num)
-                    b_neigh_1, b_neigh_2 = crlm.get_neighbors(b_num)
-                    c_neigh_1, c_neigh_2 = crlm.get_neighbors(c_num)
-
-                    neighbors = [
-                        a_neigh_1, a_neigh_2,
-                        b_neigh_1, b_neigh_2,
-                        c_neigh_1, c_neigh_2
-                    ]
-
-                    crlm.selected_neighs = crlm.select_unique_neighbors(neighbors_list=neighbors, hotters=[a_num, b_num, c_num])
-
-                    print(f"[🔍] Hotters seleccionados: {a_num}, {b_num}, {c_num}")
-                    crlm.hotter_numbers = [a_num, b_num, c_num]
-                    try:
-                        bets = {
-                            a_num: HOT_AMOUNT*crlm.get_multiplier(),
-                            b_num: HOT_AMOUNT*crlm.get_multiplier(),
-                            c_num: HOT_AMOUNT*crlm.get_multiplier(),
-                            **{n: NEIGHT_AMOUNT*crlm.get_multiplier() for n in crlm.selected_neighs}
-                        }
-                        for n in crlm:
-                            if n not in bets:
-                                bets[n] = OTHER_AMOUNT*crlm.get_multiplier()
-                        crlm.put_bet(bets)
-                    except ValueError as e:
-                        print(f"[Error en la apuesta]: {e}")
-                        print(f'Te retiras con {crlm.total_amount} DOP')
-                        print("\n\t📜 Historial de jugadas")
-                        for ronda, sublista in enumerate(crlm.history, 1):
-                            print(f"\t Ronda {ronda}: {sublista}")
-                        break
-                # -- CREA  AQUI TU PROPIA ESTRATEGIA PARA TESTEAR
-                #elif TOP_METHOD == 'TU-ESTRATEGIA1':
-                #elif TOP_METHOD == 'TU-ESTRATEGIA2':
-                else:
-                    pass
-
-                winning_number = crlm.start(secs_animation=ANIMATION_TIME_SECS)
-                status = crlm.calculate_winning_amount(winning_number=winning_number)
-
-                # -- ANTIMARTIGALA
-                # -- Aumenta el multiplicador si acierta
-                if USE_ANTIGALA:
-                    if status:
-                        crlm.add_multiplier()
-                else:
-                    crlm.INDEX = 0
-                
-                # -- Profit alcanzado
-                if crlm.has_reach_profit():
+                print(f"[🔍] Hotters seleccionados: {a_num}, {b_num}, {c_num}")
+                crlm.hotter_numbers = [a_num, b_num, c_num]
+                try:
+                    bets = {
+                        a_num: HOT_AMOUNT*crlm.get_multiplier(),
+                        b_num: HOT_AMOUNT*crlm.get_multiplier(),
+                        c_num: HOT_AMOUNT*crlm.get_multiplier(),
+                        **{n: NEIGHT_AMOUNT*crlm.get_multiplier() for n in crlm.selected_neighs}
+                    }
+                    for n in crlm:
+                        if n not in bets:
+                            bets[n] = OTHER_AMOUNT*crlm.get_multiplier()
+                    crlm.put_bet(bets)
+                except ValueError as e:
+                    print(f"[Error en la apuesta]: {e}")
                     print(f'Te retiras con {crlm.total_amount} DOP')
                     print("\n\t📜 Historial de jugadas")
                     for ronda, sublista in enumerate(crlm.history, 1):
                         print(f"\t Ronda {ronda}: {sublista}")
                     break
+            # -- CREA  AQUI TU PROPIA ESTRATEGIA PARA TESTEAR
+            #elif TOP_METHOD == 'TU-ESTRATEGIA1':
+            #elif TOP_METHOD == 'TU-ESTRATEGIA2':
+            else:
+                pass
 
-                # Verifica si el saldo se ha agotado
-                if crlm.total_amount <= 0:
-                    print("Saldo insuficiente. El juego ha terminado.")
-                    print("\n\t📜 Historial de jugadas")
-                    for ronda, sublista in enumerate(crlm.history, 1):
-                        print(f"\t Ronda {ronda}: {sublista}")
-                    break
+            winning_number = crlm.start(secs_animation=ANIMATION_TIME_SECS)
+            status = crlm.calculate_winning_amount(winning_number=winning_number)
 
-            # ESCAPE Key para salir
-            if key == b'\x1b':
+            # -- ANTIMARTIGALA
+            # -- Aumenta el multiplicador si acierta
+            if USE_ANTIGALA:
+                if status:
+                    crlm.add_multiplier()
+            else:
+                crlm.INDEX = 0
+            
+            # -- Profit alcanzado
+            if crlm.has_reach_profit():
                 print(f'Te retiras con {crlm.total_amount} DOP')
                 print("\n\t📜 Historial de jugadas")
                 for ronda, sublista in enumerate(crlm.history, 1):
                     print(f"\t Ronda {ronda}: {sublista}")
                 break
+
+            # Verifica si el saldo se ha agotado
+            if crlm.total_amount <= 0:
+                print("Saldo insuficiente. El juego ha terminado.")
+                print("\n\t📜 Historial de jugadas")
+                for ronda, sublista in enumerate(crlm.history, 1):
+                    print(f"\t Ronda {ronda}: {sublista}")
+                break
+
+        # ESCAPE Key para salir
+        if key == b'\x1b':
+            print(f'Te retiras con {crlm.total_amount} DOP')
+            print("\n\t📜 Historial de jugadas")
+            for ronda, sublista in enumerate(crlm.history, 1):
+                print(f"\t Ronda {ronda}: {sublista}")
+            break
